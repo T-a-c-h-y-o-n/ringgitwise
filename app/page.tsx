@@ -27,6 +27,22 @@ export default function Page() {
   const [email, setEmail] = useState("");
   const [emailMsg, setEmailMsg] = useState<string | null>(null);
 
+  // Persist last amount and result across refresh via localStorage
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem("ringgitwise_amount");
+      if (saved) setAmount(saved);
+      const savedResult = localStorage.getItem("ringgitwise_result");
+      if (savedResult) setResult(JSON.parse(savedResult));
+    } catch {}
+  }, []);
+  useEffect(() => {
+    try { localStorage.setItem("ringgitwise_amount", amount); } catch {}
+  }, [amount]);
+  useEffect(() => {
+    try { if (result) localStorage.setItem("ringgitwise_result", JSON.stringify(result)); } catch {}
+  }, [result]);
+
   useEffect(() => {
     track("page_view");
     fetchRate();
@@ -74,7 +90,7 @@ export default function Page() {
     track("provider_clicked", { providerId, providerName, amountSGD: result?.amountSGD });
   }
 
-  function onEmailSubmit(e: React.FormEvent) {
+  async function onEmailSubmit(e: React.FormEvent) {
     e.preventDefault();
     const trimmed = email.trim();
     if (!trimmed || !trimmed.includes("@")) {
@@ -82,8 +98,22 @@ export default function Page() {
       return;
     }
     track("email_submitted", { email: trimmed });
-    setEmailMsg("Thanks - we'll notify you when SGD/MYR improves.");
-    setEmail("");
+    try {
+      const res = await fetch("https://formspree.io/f/mbgjjwzo", {
+        method: "POST",
+        headers: { Accept: "application/json", "Content-Type": "application/json" },
+        body: JSON.stringify({ email: trimmed, _subject: "RinggitWise rate alert" }),
+      });
+      if (res.ok) {
+        setEmailMsg("Thanks - we'll notify you at info@ai2eo.com when SGD/MYR improves.");
+        setEmail("");
+      } else {
+        const data = await res.json().catch(() => null);
+        setEmailMsg(data?.errors?.[0]?.message || "Could not submit. Please try again or email info@ai2eo.com.");
+      }
+    } catch {
+      setEmailMsg("Network error. Please try again or email info@ai2eo.com.");
+    }
   }
 
   const presetAmounts = [100, 1000, 5000, 10000];
@@ -322,7 +352,7 @@ export default function Page() {
           <div className="mt-4 flex flex-wrap gap-4 text-xs text-slate-500">
             <a href="#" className="underline hover:text-slate-700">Privacy</a>
             <a href="#" className="underline hover:text-slate-700">Terms</a>
-            <a href="#" className="underline hover:text-slate-700">Contact: hello@ringgitwise.example</a>
+            <a href="mailto:info@ai2eo.com" className="underline hover:text-slate-700">Contact: info@ai2eo.com</a>
             <span>© {new Date().getFullYear()} RinggitWise - Indicative FX comparison only</span>
           </div>
           <div className="mt-2 text-[11px] text-slate-400">Built for validation. SGD → MYR only. No login, no KYC, no money movement.</div>
