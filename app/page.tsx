@@ -350,8 +350,8 @@ export default function Page() {
             <strong>Estimate disclaimer:</strong> Rates, fees and delivery times are <strong>indicative estimates</strong> and may differ from the final rate offered by the provider at the time of transfer. RinggitWise does not hold or transfer money and is not a licensed money transmitter. Verify the live rate with the provider before sending. &nbsp;|&nbsp; <strong>Affiliate disclosure:</strong> Some provider links may be affiliate links. We may earn a commission if you use them, at no extra cost to you.
           </div>
           <div className="mt-4 flex flex-wrap gap-4 text-xs text-slate-500">
-            <a href="#" className="underline hover:text-slate-700">Privacy</a>
-            <a href="#" className="underline hover:text-slate-700">Terms</a>
+            <a href="/privacy" className="underline hover:text-slate-700">Privacy</a>
+            <a href="/terms" className="underline hover:text-slate-700">Terms</a>
             <a href="mailto:info@ai2eo.com" className="underline hover:text-slate-700">Contact: info@ai2eo.com</a>
             <span>© {new Date().getFullYear()} RinggitWise - Indicative FX comparison only</span>
           </div>
