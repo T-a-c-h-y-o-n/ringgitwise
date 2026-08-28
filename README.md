@@ -1,4 +1,4 @@
-# RinggitWise — SGD → MYR True Cost Calculator
+# RinggitWise - SGD to MYR True Cost Calculator
 
 > How much MYR will they really receive? Enter SGD, compare net MYR across providers after fees + FX spread.
 
@@ -9,7 +9,7 @@ Single-page MVP for validating whether users will calculate transfer cost and cl
 ## Features
 - SGD amount input with presets (100 / 1,000 / 5,000 / 10,000)
 - Live reference rate: Frankfurter (ECB) → fallback fawazahmed0/currency-api → indicative 3.42
-- 3 provider comparison (Wise, Instarem, DBS/Bank) — configurable in `lib/providers.ts`
+- 3 provider comparison (Wise, Instarem, DBS/Bank) - configurable in `lib/providers.ts`
 - Fee + spread calculation: `netMYR = (SGD - fee) × referenceRate × (1 + spread)`
 - Best/worst + potential difference highlighted
 - Provider CTA tracking (`provider_clicked`)
@@ -28,7 +28,7 @@ npm run build
 ```
 
 ## Config
-Provider fees/spreads: `lib/providers.ts` — update without touching `lib/calc.ts`
+Provider fees/spreads: `lib/providers.ts` - update without touching `lib/calc.ts`
 Rate source: `app/api/rate/route.ts`
 
 ## Disclaimer
