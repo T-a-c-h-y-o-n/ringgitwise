@@ -82,7 +82,7 @@ export default function Page() {
       return;
     }
     track("email_submitted", { email: trimmed });
-    setEmailMsg("Thanks — we'll notify you when SGD/MYR improves.");
+    setEmailMsg("Thanks - we'll notify you when SGD/MYR improves.");
     setEmail("");
   }
 
@@ -96,7 +96,7 @@ export default function Page() {
           <div className="flex items-center gap-2">
             <div className="w-8 h-8 rounded-lg bg-slate-900 text-white grid place-items-center font-extrabold text-sm">RW</div>
             <span className="font-bold tracking-tight">RinggitWise</span>
-            <span className="hidden sm:inline text-xs bg-amber-100 text-amber-800 px-2 py-0.5 rounded-full font-medium ml-2">MVP — Indicative</span>
+            <span className="hidden sm:inline text-xs bg-amber-100 text-amber-800 px-2 py-0.5 rounded-full font-medium ml-2">MVP - Indicative</span>
           </div>
           <a href="#methodology" className="text-sm text-slate-600 hover:text-slate-900 underline-offset-4 hover:underline">How we calculate</a>
         </div>
@@ -111,7 +111,7 @@ export default function Page() {
                 How much <span className="text-cyan-700">MYR</span> will they really receive?
               </h1>
               <p className="mt-3 text-slate-600 leading-relaxed">
-                Enter SGD amount. See estimated net MYR across 3 providers — fees + FX spread included. No account needed.
+                Enter SGD amount. See estimated net MYR across 3 providers, fees + FX spread included. No account needed.
               </p>
               <div className="mt-4 flex flex-wrap gap-2 text-xs">
                 <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-slate-900 text-white"><span className="w-1.5 h-1.5 bg-emerald-400 rounded-full animate-pulse" /> SGD → MYR only</span>
@@ -131,7 +131,7 @@ export default function Page() {
                   {rateData && !rateData.live && <span className="px-1.5 py-0.5 rounded bg-amber-100 text-amber-800 font-medium">Indicative</span>}
                 </div>
                 <div className="text-slate-500 text-[11px]">
-                  Source: {rateData?.source ?? "—"} · Updated: {rateData?.lastUpdated ?? "—"} · <button onClick={fetchRate} className="underline hover:text-slate-700">Refresh</button>
+                  Source: {rateData?.source ?? "-"} · Updated: {rateData?.lastUpdated ?? "-"} · <button onClick={fetchRate} className="underline hover:text-slate-700">Refresh</button>
                 </div>
               </div>
               {rateError && <p className="mt-2 text-xs text-amber-700 bg-amber-50 border border-amber-200 rounded-lg px-3 py-2">{rateError}</p>}
@@ -307,7 +307,7 @@ export default function Page() {
               <p className="mt-2 text-sm text-slate-600">
                 Primary: Frankfurter (ECB). Fallback: fawazahmed0/currency-api (CC0). If both fail, an indicative reference rate is shown and labelled as <em>Indicative</em>.
               </p>
-              <p className="mt-2 text-xs text-slate-500">Last updated: {rateData?.lastUpdated ?? "—"} · Source: {rateData?.source ?? "—"} · {rateData?.live ? "Live" : "Indicative"}</p>
+              <p className="mt-2 text-xs text-slate-500">Last updated: {rateData?.lastUpdated ?? "-"} · Source: {rateData?.source ?? "-"} · {rateData?.live ? "Live" : "Indicative"}</p>
             </div>
           </div>
         </section>
@@ -323,7 +323,7 @@ export default function Page() {
             <a href="#" className="underline hover:text-slate-700">Privacy</a>
             <a href="#" className="underline hover:text-slate-700">Terms</a>
             <a href="#" className="underline hover:text-slate-700">Contact: hello@ringgitwise.example</a>
-            <span>© {new Date().getFullYear()} RinggitWise — Indicative FX comparison only</span>
+            <span>© {new Date().getFullYear()} RinggitWise - Indicative FX comparison only</span>
           </div>
           <div className="mt-2 text-[11px] text-slate-400">Built for validation. SGD → MYR only. No login, no KYC, no money movement.</div>
         </div>
