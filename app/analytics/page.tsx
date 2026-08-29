@@ -10,14 +10,29 @@ type Stats = {
 
 async function getStats(): Promise<Stats> {
   try {
-    const base = process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "http://localhost:3000";
-    // Use relative fetch via next server fetch - for SSR we can call API relatively
-    // Simpler: try absolute, fallback to not configured
+    // On Vercel, VERCEL_URL is like xxx.vercel.app without protocol; prod custom domain is in VERCEL_PROJECT_PRODUCTION_URL or header
+    // Try production url first, then VERCEL_URL, then localhost fallback. Use headers() to get real host if available.
+    let base = "";
+    try {
+      const { headers } = await import("next/headers");
+      const h = headers();
+      const host = h.get("x-forwarded-host") || h.get("host") || "";
+      const proto = h.get("x-forwarded-proto") || "https";
+      if (host) base = `${proto}://${host}`;
+    } catch {}
+    if (!base) {
+      base = process.env.VERCEL_PROJECT_PRODUCTION_URL
+        ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
+        : process.env.VERCEL_URL
+        ? `https://${process.env.VERCEL_URL}`
+        : "http://localhost:3000";
+    }
     const res = await fetch(`${base}/api/analytics?days=7`, { cache: "no-store" }).catch(() => null);
     if (res && res.ok) return await res.json();
-    return { configured: false, message: "Could not fetch /api/analytics (dev without server?)" };
-  } catch {
-    return { configured: false, message: "fetch failed" };
+    const txt = res ? await res.text().catch(() => "") : "";
+    return { configured: false, message: txt ? `fetch failed: ${res?.status} ${txt.slice(0,120)}` : "Could not fetch /api/analytics (dev without server?)" };
+  } catch (e: any) {
+    return { configured: false, message: `fetch failed: ${e?.message || e}` };
   }
 }
 
